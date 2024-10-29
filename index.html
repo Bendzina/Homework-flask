@@ -1,0 +1,205 @@
+{% extends 'base.html' %}
+
+{% include 'header.html' %}
+
+{% block title %} Car Shop {% endblock %}
+
+{% block body %}
+<div class="container">
+
+    <div class="row">
+
+        <div class="col md-12">
+
+        <div class="jumbotron p-3">
+
+            <h2><b>Cars</b> 
+                <button type="button" class="btn btn-success float-right" data-toggle="modal" data-target="#mymodal"> Add New Car</button>
+            </h2>
+
+
+
+
+            <table class="table table-hover table-dark">
+
+                <tr>
+                    <th>ID</th>
+                    <th>Manufacturer</th>
+                    <th>Model</th>
+                    <th>In Stock</th>
+                    <th>Price</th>
+                </tr>
+
+<!--                for data info-->
+            {% for car in cars %}
+                <tr>
+                    <td>{{ car.id }}</td>
+                    <td>{{ car.manufacturer }}</td>
+                    <td>{{ car.model }}</td>
+                    <td>{{ car.instock }}</td>
+                    <td>${{ car.price }}</td>
+                    <td>
+                        <a href="" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#modaledit{{car.id}}">Edit</a>
+                        
+                        <a href="/delete/{{ car.id }}" class="btn btn-danger btn-xs"  onclick="return confirm('Are you sure to delete?')">Delete</a>
+
+                    </td>
+                    
+                </tr>
+
+
+                <div id="modaledit{{car.id}}" class="modal fade" role="dialog">
+
+                    <div class="modal-dialog">
+
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+
+                                <h4 class="modal-title"> Update Car</h4>
+
+
+                            </div>
+
+                            <div class="modal-body">
+
+                                <form action="/update/{{car.id}}" method="post">
+
+
+                                    <div class="form-group">
+
+                                        <label >Manufacturer:</label>
+                                        <input type="hidden" name="id" value="{{car.id}}">
+                                        <input type="text" class="form-control" name="manufacturer" value="{{car.manufacturer}}">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label >Model:</label>
+                                        <input type="text" class="form-control" name="model" value="{{car.model}}">
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label >In Stock: </label>
+                                        <select class="form-control" name="instock" value="{{car.instock}}">
+                                            <option value="YES" style="color: rgb(0, 255, 0);"><b>YES</b></option>
+                                            <option value="NO" style="color: red;"><b>NO</b></option>
+                                        </select>
+
+
+
+                                    </div>
+
+                                    <div class="form-group">
+
+                                        <label >Price: </label>
+                                        <input type="text" class="form-control" name="price" value="{{car.price}}">
+
+
+
+                                    </div>
+
+                            
+                                    <div class="form-group">
+
+                                        <button class="btn btn-primary" type="submit">Update</button>
+
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+
+                            <div class="modal-footer">
+
+                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                            </div>
+
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+
+
+            </table>
+
+        </div>
+
+      
+
+        <div id="mymodal" class="modal fade" role="dialog">
+
+            <div class="modal-dialog">
+
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add New Car</h4>
+                    </div>
+
+                    <div class="modal-body">
+                        <form action="{{ url_for('insert') }}" method="post">
+                            <div class="form-group">
+                                <label>Manufacturer:</label>
+                                <input type="text" class="form-control" name="manufacturer" required="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Model:</label>
+                                <input type="text" class="form-control" name="model" required="1">
+                            </div>
+
+                            <div class="form-group">
+                                <label>In Stock:</label>
+
+                                <select class="form-control" name="instock" required="1">
+                                    <option value="YES" style="color:rgb(0, 255, 0);"><b>YES</b></option>
+                                    <option value="NO" style="color: red;"><b>NO</b></option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label>Price:</label>
+                                <input type="text" class="form-control" name="price" required="1">
+                            </div>
+
+
+                            <div class="form-group">
+                                <button class="btn btn-primary" type="submit">Add New Car</button>
+                            </div>
+
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                    </div>
+                </div>
+
+            </div>
+
+
+
+        </div>
+
+
+       
+
+    </div>
+
+</div>
+
+
+</div>
+{% endblock %}
+
